@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "VITE_BASE_PATH=/spa/albums-by-runtime/ tsc -b && vite build",
-    "build:ghpages": "VITE_BASE_PATH=/AlbumsByRuntime/ tsc -b && vite build",
+    "build": "tsc -b && VITE_BASE_PATH=/spa/albums-by-runtime/ vite build",
+    "build:ghpages": "tsc -b && VITE_BASE_PATH=/AlbumsByRuntime/ vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

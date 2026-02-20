@@ -13,17 +13,39 @@ interface AuthContextValue extends AuthState {
   isAuthenticated: boolean;
 }
 
+const SESSION_KEY = 'albums_by_runtime_auth';
+
+function loadSession(): AuthState {
+  try {
+    const stored = sessionStorage.getItem(SESSION_KEY);
+    if (!stored) return { token: null, user: null };
+    const parsed = JSON.parse(stored) as AuthState;
+    if (parsed.token && parsed.token.expiresAt > Date.now()) {
+      return parsed;
+    }
+    sessionStorage.removeItem(SESSION_KEY);
+  } catch { /* ignore corrupted data */ }
+  return { token: null, user: null };
+}
+
+function saveSession(state: AuthState): void {
+  sessionStorage.setItem(SESSION_KEY, JSON.stringify(state));
+}
+
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<AuthState>({ token: null, user: null });
+  const [state, setState] = useState<AuthState>(loadSession);
 
   const setAuth = useCallback((token: TokenData, user: UserProfile) => {
-    setState({ token, user });
+    const next = { token, user };
+    setState(next);
+    saveSession(next);
   }, []);
 
   const clearAuth = useCallback(() => {
     setState({ token: null, user: null });
+    sessionStorage.removeItem(SESSION_KEY);
   }, []);
 
   const value: AuthContextValue = {

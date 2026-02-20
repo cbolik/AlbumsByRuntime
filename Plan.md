@@ -76,6 +76,58 @@ interface AlbumData {
 }
 ```
 
+## v1a — Per-Duration Favorites
+
+### Purpose
+Let users "star" albums as favorites for a specific duration, so their go-to albums for a given session length are easy to find. A 45-minute favorite is independent from a 50-minute favorite.
+
+### Data Model
+- **Storage:** `localStorage` under a single key (`albums_by_runtime_favorites`)
+- **Shape:** `{ [durationMinutes: number]: string[] }` — maps each duration to a list of album IDs
+- **Example:** `{ 45: ["abc123", "def456"], 60: ["ghi789"] }`
+- **Hook:** `useFavorites(targetMinutes)` exposes `isFavorite(albumId)` and `toggleFavorite(albumId)`
+
+### UI
+- **Star icon** in the top-right corner of the album cover art on each `AlbumTile`
+- **Unfavorited:** outline star, subtle, visible on hover (with semi-transparent dark backdrop for contrast)
+- **Favorited:** solid filled star in golden yellow (`#FBBF24` / Tailwind `amber-400`), always visible
+- **Click behavior:** clicking the star toggles the favorite (`e.stopPropagation()` prevents opening Spotify); clicking anywhere else on the tile opens Spotify as before
+- **Hidden when no duration selected:** the star only appears when a duration is active (since favorites are keyed by duration)
+
+### Sorting
+- Starred albums appear first in the grid, sorted by deviation from target
+- Unstarred albums follow, also sorted by deviation
+- This gives favorites visual priority without breaking the "closest match" ordering within each group
+
+### Animation
+- **Framer Motion** `layout` prop on each tile for smooth animated reordering when starring/unstarring
+- Tiles animate to their new grid position rather than the grid snapping instantly
+- `LayoutGroup` wraps the grid to coordinate animations across tiles
+
+### Implementation Steps
+
+#### Step 1: Create `useFavorites` hook
+- Read/write `localStorage` under `albums_by_runtime_favorites`
+- Accept `targetMinutes: number | null` parameter
+- Expose `isFavorite(albumId: string): boolean` and `toggleFavorite(albumId: string): void`
+- Return stable references via `useCallback`
+
+#### Step 2: Update `AlbumTile` with star button
+- Add a star button (SVG icon) positioned absolutely in the top-right of the cover art
+- Semi-transparent dark background behind the star for contrast against any cover art
+- Outline star (unfavorited, visible on hover) / solid golden star (favorited, always visible)
+- `onClick` calls `toggleFavorite`, with `stopPropagation` to prevent Spotify open
+- Accept `isFavorite` and `onToggleFavorite` as props
+
+#### Step 3: Update sorting to prioritize favorites
+- Modify `useFilteredAlbums` (or the sorting in `MainPage`) to accept a `Set<string>` of favorite IDs
+- Sort: favorites first (by deviation), then non-favorites (by deviation)
+
+#### Step 4: Wire up in MainPage
+- Call `useFavorites(targetMinutes)` in `MainPage`
+- Pass `isFavorite` and `toggleFavorite` through `AlbumGrid` to `AlbumTile`
+- Pass favorite IDs to the sorting logic
+
 ## v1b — Playlist Support (Future)
 
 - Add user's playlists alongside albums, separated by tabs (Albums | Playlists)

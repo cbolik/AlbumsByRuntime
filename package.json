@@ -5,11 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "VITE_BASE_PATH=/spa/albums-by-runtime/ tsc -b && vite build",
+    "build:ghpages": "VITE_BASE_PATH=/AlbumsByRuntime/ tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^12.34.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

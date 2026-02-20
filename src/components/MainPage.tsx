@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../services/AuthContext';
 import { useAlbums } from '../hooks/useAlbums';
 import { useFilteredAlbums } from '../hooks/useFilteredAlbums';
+import { useFavorites } from '../hooks/useFavorites';
 import { Header } from './Header';
 import { DurationPicker } from './DurationPicker';
 import { LoadingBar } from './LoadingBar';
@@ -12,7 +13,8 @@ export function MainPage() {
   const { token, user } = useAuth();
   const { albums, loading, progress, error, retry } = useAlbums(token?.accessToken ?? null);
   const [targetMinutes, setTargetMinutes] = useState<number | null>(null);
-  const filtered = useFilteredAlbums(albums, targetMinutes);
+  const { isFavorite, toggleFavorite, favoriteIds } = useFavorites(targetMinutes);
+  const filtered = useFilteredAlbums(albums, targetMinutes, favoriteIds);
 
   return (
     <div className="min-h-screen bg-neutral-950 text-white">
@@ -52,7 +54,7 @@ export function MainPage() {
                 </p>
               </div>
             ) : filtered.length > 0 ? (
-              <AlbumGrid albums={filtered} />
+              <AlbumGrid albums={filtered} isFavorite={isFavorite} onToggleFavorite={toggleFavorite} />
             ) : (
               <EmptyState targetMinutes={targetMinutes} />
             )}

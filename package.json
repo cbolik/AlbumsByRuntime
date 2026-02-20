@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && VITE_BASE_PATH=/spa/albums-by-runtime/ vite build",
-    "build:ghpages": "tsc -b && VITE_BASE_PATH=/AlbumsByRuntime/ vite build",
+    "build:ghpages": "tsc -b && VITE_BASE_PATH=/AlbumsByRuntime/ vite build && cp dist/index.html dist/404.html",
     "lint": "eslint .",
     "preview": "vite preview"
   },

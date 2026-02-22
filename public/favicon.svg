@@ -5,23 +5,64 @@
       <stop offset="100%" stop-color="#0a0a0a"/>
     </linearGradient>
   </defs>
+
   <!-- Background -->
   <rect width="512" height="512" rx="96" fill="url(#bg)"/>
-  <!-- Clock face -->
-  <circle cx="256" cy="280" r="160" fill="none" stroke="#e5e5e5" stroke-width="16"/>
-  <!-- Top button -->
-  <rect x="236" y="88" width="40" height="40" rx="6" fill="#e5e5e5"/>
-  <!-- Side button -->
-  <rect x="380" y="170" width="32" height="24" rx="4" fill="#e5e5e5" transform="rotate(30 396 182)"/>
-  <!-- Hour marks -->
-  <line x1="256" y1="136" x2="256" y2="160" stroke="#e5e5e5" stroke-width="8" stroke-linecap="round"/>
-  <line x1="256" y1="400" x2="256" y2="424" stroke="#e5e5e5" stroke-width="8" stroke-linecap="round"/>
-  <line x1="112" y1="280" x2="136" y2="280" stroke="#e5e5e5" stroke-width="8" stroke-linecap="round"/>
-  <line x1="376" y1="280" x2="400" y2="280" stroke="#e5e5e5" stroke-width="8" stroke-linecap="round"/>
-  <!-- Minute hand (pointing to ~10 minutes) -->
-  <line x1="256" y1="280" x2="256" y2="160" stroke="#1ED760" stroke-width="10" stroke-linecap="round"/>
-  <!-- Second hand (sweeping) -->
-  <line x1="256" y1="280" x2="340" y2="200" stroke="#1ED760" stroke-width="5" stroke-linecap="round"/>
-  <!-- Center dot -->
-  <circle cx="256" cy="280" r="10" fill="#1ED760"/>
+
+  <g transform="translate(256, 274)">
+
+    <!-- Stopwatch crown -->
+    <rect x="-16" y="-224" width="32" height="42" rx="7" fill="#ddd"/>
+    <rect x="-11" y="-230" width="22" height="10" rx="5" fill="#eee"/>
+
+    <!-- Side button -->
+    <g transform="rotate(30)">
+      <rect x="182" y="-32" width="30" height="20" rx="5" fill="#ccc"/>
+    </g>
+
+    <!-- Outer bezel — thick bright ring -->
+    <circle cx="0" cy="0" r="196" fill="#777"/>
+    <circle cx="0" cy="0" r="186" fill="#222"/>
+
+    <!-- Vinyl grooves — very bold, bright enough to see -->
+    <circle cx="0" cy="0" r="172" fill="none" stroke="#555" stroke-width="5"/>
+    <circle cx="0" cy="0" r="150" fill="none" stroke="#555" stroke-width="5"/>
+    <circle cx="0" cy="0" r="128" fill="none" stroke="#555" stroke-width="5"/>
+    <circle cx="0" cy="0" r="106" fill="none" stroke="#555" stroke-width="5"/>
+    <circle cx="0" cy="0" r="86" fill="none" stroke="#555" stroke-width="5"/>
+
+    <!-- Major tick marks at 12, 3, 6, 9 — bright white, thick -->
+    <line x1="0" y1="-178" x2="0" y2="-148" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="178" y1="0" x2="148" y2="0" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="0" y1="178" x2="0" y2="148" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="-178" y1="0" x2="-148" y2="0" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+
+    <!-- Minor tick marks -->
+    <line x1="89" y1="-154" x2="74" y2="-128" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="154" y1="-89" x2="128" y2="-74" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="154" y1="89" x2="128" y2="74" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="89" y1="154" x2="74" y2="128" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-89" y1="154" x2="-74" y2="128" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-154" y1="89" x2="-128" y2="74" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-154" y1="-89" x2="-128" y2="-74" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+    <line x1="-89" y1="-154" x2="-74" y2="-128" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Record label — green center disc -->
+    <circle cx="0" cy="0" r="70" fill="#1ED760"/>
+    <circle cx="0" cy="0" r="65" fill="#17a348"/>
+    <circle cx="0" cy="0" r="53" fill="none" stroke="#1ED760" stroke-width="3"/>
+
+    <!-- Clock hands — extend into vinyl area for visibility -->
+    <!-- Minute hand ~10 o'clock -->
+    <line x1="0" y1="5" x2="-68" y2="-110" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <!-- Hour hand ~2 o'clock -->
+    <line x1="0" y1="5" x2="52" y2="-44" stroke="#fff" stroke-width="8" stroke-linecap="round"/>
+    <!-- Second hand — amber accent, passes through center with counterweight -->
+    <line x1="-18" y1="-34" x2="48" y2="88" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- Center pivot — amber -->
+    <circle cx="0" cy="0" r="10" fill="#fbbf24"/>
+    <!-- Spindle hole -->
+    <circle cx="0" cy="0" r="4" fill="#111"/>
+  </g>
 </svg>
